@@ -1,11 +1,32 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import {Link} from 'react-router-dom';
 
 function Shop() {
+
+  useEffect(() => {
+    fetchItems();
+  },[]);
+  const [items, setItems] = useState([
+    
+  ]);
+  const fetchItems = async () => {
+    const data = await fetch('https://fortnite-api.theapinetwork.com/store/get'); {/* https://fortnite-public-api.theapinetwork.com/prod09/upcoming/get */}
+    const items = await data.json();
+    console.log(items.data);
+    setItems(items.data);
+  }
   return (
-    <div className="About">
-      <h1>Shop Page</h1>
+    <div>
+      {items.map(item => (
+        <h1 key={item.itemId}>
+        <Link to={`/shop/${item.itemId}`}>
+        {item.name}
+        </Link>
+        
+        </h1>
+      ))}
     </div>
   );
 }
